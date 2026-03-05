@@ -3,9 +3,6 @@ import arcade
 from constants import *
 from gameview import GameView
 
-# uv run main.py
-
-
 def main() -> None:
     # Create the (unique) Window, setup our GameView, and launch
     window = arcade.Window(MAX_WINDOW_WIDTH, MAX_WINDOW_HEIGHT, WINDOW_TITLE)

@@ -2,12 +2,17 @@ from typing import Final
 import arcade
 
 from constants import *
+from textures import *
+
+def grid_to_pixels(i: int) -> int:
+    return i * TILE_SIZE + (TILE_SIZE // 2)
 
 class GameView(arcade.View):
     """Main in-game view."""
 
     world_width: Final[int]
     world_height: Final[int]
+    player: Final[arcade.Sprite]
 
     def __init__(self) -> None:
         # Magical incantion: initialize the Arcade view
@@ -20,6 +25,12 @@ class GameView(arcade.View):
         self.world_width = 40 * TILE_SIZE
         self.world_height = 20 * TILE_SIZE
 
+        self.player = arcade.Sprite(
+            TEXTURE_PLAYER_IDLE_DOWN,
+            scale=SCALE, center_x=grid_to_pixels(2), center_y=grid_to_pixels(2)
+        )
+
+
     def on_show_view(self) -> None:
         """Called automatically by 'window.show_view(game_view)' in main.py."""
         # When we show the view, adjust the window's size to our world size.
@@ -31,3 +42,4 @@ class GameView(arcade.View):
     def on_draw(self) -> None:
         """Render the screen."""
         self.clear() # always start with self.clear()
+        arcade.draw_sprite(self.player)
