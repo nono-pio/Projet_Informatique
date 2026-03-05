@@ -14,6 +14,8 @@ class GameView(arcade.View):
     world_height: Final[int]
     player: Final[arcade.Sprite]
     player_list: Final[arcade.SpriteList[arcade.Sprite]]
+    grounds : Final[arcade.SpriteList[arcade.Sprite]]
+    walls : Final[arcade.SpriteList[arcade.Sprite]]
 
     def __init__(self) -> None:
         # Magical incantion: initialize the Arcade view
@@ -34,6 +36,18 @@ class GameView(arcade.View):
         self.player_list = arcade.SpriteList()
         self.player_list.append(self.player)
 
+        self.grounds = arcade.SpriteList(use_spatial_hash=True)
+        for x in range(0, 40):
+            for y in range(0, 20):
+                ground = arcade.Sprite(TEXTURE_GRASS, scale = SCALE, center_x=grid_to_pixels(x), center_y=grid_to_pixels(y))
+                self.grounds.append(ground)
+
+
+        self.walls = arcade.SpriteList(use_spatial_hash=True)
+        for (x, y) in [(3,6),(7,2),(2,1),(3,8)]:
+            wall = arcade.Sprite(TEXTURE_BUSH, scale = SCALE, center_x=grid_to_pixels(x), center_y=grid_to_pixels(y))
+            self.walls.append(wall)
+
 
     def on_show_view(self) -> None:
         """Called automatically by 'window.show_view(game_view)' in main.py."""
@@ -46,5 +60,8 @@ class GameView(arcade.View):
     def on_draw(self) -> None:
         """Render the screen."""
         self.clear() # always start with self.clear()
-        arcade.draw_sprite(self.player)
+
+        self.grounds.draw()
+        self.walls.draw()
+
         self.player_list.draw()
